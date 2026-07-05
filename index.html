@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'ÉVEIL NOCTURNE — There is no lock.</title>
+<meta name="description" content="L'ÉVEIL NOCTURNE — Le mouvement qui refuse le gatekeeping dans l'éducation hacker. 6 outils open-source. 1 méthodologie. 0 paywall. ∞ divergence.">
+<meta name="keywords" content="hacktivism, hacker, open-source, methodology, cybersecurity, offensive, OSINT, pentest, éthique, education, mouvement, eveil, nocturne, ghost1o1">
+<meta property="og:title" content="L'ÉVEIL NOCTURNE — There is no lock.">
+<meta property="og:description" content="6 outils open-source. 1 méthodologie. 0 paywall. ∞ divergence.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://187ghost101.github.io/eveil-nocturne/">
+<meta property="og:image" content="https://187ghost101.github.io/eveil-nocturne/assets/images/og_image_1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="L'ÉVEIL NOCTURNE — There is no lock.">
+<meta name="twitter:description" content="6 outils. 1 méthodologie. 0 paywall. ∞ divergence.">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" type="image/png" href="assets/images/sigil_favicon.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     ANTI-FORGERY SIGNAL — hidden, used for fingerprinting
+     ═══════════════════════════════════════════════════════ -->
+<div id="signal" style="display:none">LEVEIL-NOCTURNE-2026-J0-2200UTC</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">
+      <img src="assets/images/sigil_favicon.png" alt="sigil" class="nav-sigil">
+      <span class="nav-title">L'ÉVEIL NOCTURNE</span>
+    </a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#manifesto">Manifeste</a></li>
+      <li><a href="#trinity">Trinité</a></li>
+      <li><a href="#arsenal">Arsenal</a></li>
+      <li><a href="#serment">Serment</a></li>
+      <li><a href="#timeline">Signal</a></li>
+      <li><a href="#press">Presse</a></li>
+      <li><a href="https://github.com/187Ghost101/eveil-nocturne" target="_blank" rel="noopener" class="nav-cta">GitHub ↗</a></li>
+    </ul>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-inner">
+    <!-- Sigil animated -->
+    <div class="sigil-wrap" id="sigilWrap">
+      <svg class="sigil" id="sigil" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-label="L'Éveil Nocturne sigil">
+        <defs>
+          <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f4a261" stop-opacity="0.4"/>
+            <stop offset="50%" stop-color="#f4a261" stop-opacity="0.1"/>
+            <stop offset="100%" stop-color="#f4a261" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="goldGlow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer ring -->
+        <circle cx="200" cy="200" r="180" fill="none" stroke="#1a1a35" stroke-width="1"/>
+        <circle cx="200" cy="200" r="160" fill="none" stroke="#1a1a35" stroke-width="1" stroke-dasharray="2 4"/>
+
+        <!-- Moon glow -->
+        <circle cx="200" cy="140" r="90" fill="url(#moonGlow)"/>
+
+        <!-- Crescent moon (c) -->
+        <g class="moon-group" filter="url(#goldGlow)">
+          <path d="M 200,80 A 60,60 0 1 0 200,200 A 45,45 0 1 1 200,80" fill="#f4a261"/>
+        </g>
+
+        <!-- Open eye (◉) -->
+        <g class="eye-group" filter="url(#goldGlow)">
+          <ellipse cx="200" cy="225" rx="55" ry="28" fill="none" stroke="#e8e8f0" stroke-width="3"/>
+          <circle cx="200" cy="225" r="20" fill="#e63946">
+            <animate attributeName="r" values="20;22;20" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="200" cy="225" r="8" fill="#0a0a0f"/>
+        </g>
+
+        <!-- 4 diverging paths (╳) -->
+        <g class="paths-group" stroke="#00d4ff" stroke-width="3" fill="#00d4ff" stroke-linecap="round">
+          <line x1="160" y1="290" x2="110" y2="350" />
+          <line x1="240" y1="290" x2="290" y2="350" />
+          <line x1="160" y1="290" x2="140" y2="360" />
+          <line x1="240" y1="290" x2="260" y2="360" />
+          <circle cx="110" cy="350" r="5"/>
+          <circle cx="290" cy="350" r="5"/>
+          <circle cx="140" cy="360" r="4"/>
+          <circle cx="260" cy="360" r="4"/>
+        </g>
+
+        <!-- Center axis dot -->
+        <circle cx="200" cy="290" r="6" fill="#e63946">
+          <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Text: L'ÉVEIL NOCTURNE 2026 -->
+        <text x="200" y="395" text-anchor="middle" fill="#8888a0" font-family="monospace" font-size="10" letter-spacing="3">L'ÉVEIL NOCTURNE  2026</text>
+      </svg>
+    </div>
+
+    <div class="hero-text">
+      <div class="hero-prefix">// LE MOUVEMENT</div>
+      <h1 class="hero-title">L'ÉVEIL NOCTURNE</h1>
+      <p class="hero-tagline"><em>There is no lock.</em></p>
+
+      <div class="hero-trinity">
+        <div class="trinity-line">Du silence naît la lumière</div>
+        <div class="trinity-line">Là où l'ignorance dort, nous allumons</div>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown" id="countdown">
+        <div class="countdown-label">LE SIGNAL DANS</div>
+        <div class="countdown-grid">
+          <div class="countdown-cell">
+            <div class="countdown-num" id="cd-days">--</div>
+            <div class="countdown-unit">JOURS</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-cell">
+            <div class="countdown-num" id="cd-hours">--</div>
+            <div class="countdown-unit">HEURES</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-cell">
+            <div class="countdown-num" id="cd-mins">--</div>
+            <div class="countdown-unit">MIN</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-cell">
+            <div class="countdown-num" id="cd-secs">--</div>
+            <div class="countdown-unit">SEC</div>
+          </div>
+        </div>
+        <div class="countdown-target">2026 · 07 · 12 · 22:00 UTC</div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="https://github.com/187Ghost101/eveil-nocturne" target="_blank" rel="noopener" class="btn btn-primary">↗ REJOINDRE LE MOUVEMENT</a>
+        <a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/MANIFESTO.md" target="_blank" rel="noopener" class="btn btn-ghost">LIRE LE MANIFESTE</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">6</div>
+          <div class="hero-stat-lbl">OUTILS</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">1</div>
+          <div class="hero-stat-lbl">MÉTHODE</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">0</div>
+          <div class="hero-stat-lbl">PAYWALL</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">∞</div>
+          <div class="hero-stat-lbl">DIVERGENCE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     MANIFESTO
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section-manifesto" id="manifesto">
+  <div class="section-inner">
+    <div class="section-prefix">// 01</div>
+    <h2 class="section-title">LE MANIFESTE</h2>
+    <p class="section-subtitle">Ce que nous refusons. Ce que nous construisons.</p>
+
+    <div class="manifesto-grid">
+      <div class="manifesto-block manifesto-refuse">
+        <div class="manifesto-label">// CE QUE NOUS REFUSONS</div>
+        <ul>
+          <li>Le paywall comme filtre d'accès</li>
+          <li>La formation vue comme un produit</li>
+          <li>Le mentor comme gardien</li>
+          <li>La connaissance comme capital</li>
+          <li>Le silence complice</li>
+        </ul>
+      </div>
+
+      <div class="manifesto-divider">
+        <div class="manifesto-arrow">→</div>
+      </div>
+
+      <div class="manifesto-block manifesto-build">
+        <div class="manifesto-label">// CE QUE NOUS CONSTRUISONS</div>
+        <ul>
+          <li>Six outils, source ouverte</li>
+          <li>Une méthodologie reproductible</li>
+          <li>Une communauté sans hiérarchie</li>
+          <li>Un pont entre curiosité et capacité</li>
+          <li>Le bruit qui dérange le silence</li>
+        </ul>
+      </div>
+    </div>
+
+    <blockquote class="pull-quote">
+      <p>« On ne vous apprend pas à <span class="hl">penser</span>.<br>On vous apprend à <span class="hl-acc">obéir</span> à ceux qui savent. »</p>
+      <cite>— L'Éveil Nocturne</cite>
+    </blockquote>
+
+    <div class="manifesto-principles">
+      <div class="principle">
+        <div class="principle-num">I.</div>
+        <div class="principle-name">Curiosité comme droit</div>
+        <p>La question n'est jamais interdite. L'accès au savoir non plus.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">II.</div>
+        <div class="principle-name">Outils, pas produits</div>
+        <p>Nous publions des instruments, pas des services. À toi de les forger.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">III.</div>
+        <div class="principle-name">Méthode avant résultat</div>
+        <p>Apprendre à penser un système, pas à copier une commande.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">IV.</div>
+        <div class="principle-name">Zéro hiérarchie</div>
+        <p>Le meilleur argument gagne, pas le titre le plus long.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TRINITY
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section-trinity" id="trinity">
+  <div class="section-inner">
+    <div class="section-prefix">// 02</div>
+    <h2 class="section-title">LA TRINITÉ</h2>
+    <p class="section-subtitle">Trois phrases. Une seule intention.</p>
+
+    <div class="trinity-cards">
+      <div class="trinity-card trinity-1">
+        <div class="trinity-num">01</div>
+        <h3 class="trinity-phrase">There is no lock.</h3>
+        <p class="trinity-meaning">Il n'existe aucune serrure que la curiosité ne puisse comprendre. Tout ce qui est construit peut être démonté, compris, reconstruit. C'est la première vérité du mouvement : l'accès au savoir est un droit, pas un privilège.</p>
+        <div class="trinity-lang">EN</div>
+      </div>
+
+      <div class="trinity-card trinity-2">
+        <div class="trinity-num">02</div>
+        <h3 class="trinity-phrase">Du silence naît la lumière.</h3>
+        <p class="trinity-meaning">L'obscurité n'est pas notre ennemie. C'est le terreau. C'est dans le silence que naissent les questions, et dans les questions que naît la lumière. Nous ne craignons pas le silence — nous l'habitons.</p>
+        <div class="trinity-lang">FR</div>
+      </div>
+
+      <div class="trinity-card trinity-3">
+        <div class="trinity-num">03</div>
+        <h3 class="trinity-phrase">Là où l'ignorance dort, nous allumons.</h3>
+        <p class="trinity-meaning">Notre action n'est pas de brûler. C'est d'allumer. Là où la connaissance s'est endormie, là où les portes se ferment, là où les gardiens fatiguent, nous posons la flamme. Une allumette à la fois.</p>
+        <div class="trinity-lang">FR</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     ARSENAL — 6 OUTILS
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section-arsenal" id="arsenal">
+  <div class="section-inner">
+    <div class="section-prefix">// 03</div>
+    <h2 class="section-title">L'ARSENAL</h2>
+    <p class="section-subtitle">Six instruments. Une seule philosophie : comprendre avant d'agir.</p>
+
+    <div class="arsenal-grid" id="arsenalGrid">
+      <!-- Tool 1: ghosteye -->
+      <a href="https://github.com/187Ghost101/ghosteye" target="_blank" rel="noopener" class="tool-card" data-tool="ghosteye">
+        <div class="tool-icon">◉</div>
+        <div class="tool-tag">RECONNAISSANCE</div>
+        <h3 class="tool-name">ghosteye</h3>
+        <p class="tool-desc">HLS live streaming dashboard. ONVIF discovery. RTSP brute. Branche tes yeux sur la matrice — vois avant d'agir.</p>
+        <div class="tool-meta">
+          <span class="tool-lang">Python</span>
+          <span class="tool-status">● LIVE</span>
+        </div>
+      </a>
+
+      <!-- Tool 2: biobypass -->
+      <a href="https://github.com/187Ghost101/biobypass" target="_blank" rel="noopener" class="tool-card" data-tool="biobypass">
+        <div class="tool-icon">⟁</div>
+        <div class="tool-tag">AUTH BYPASS</div>
+        <h3 class="tool-name">biobypass</h3>
+        <p class="tool-desc">Biometric bypass research. Quand le corps devient la clé, le corps devient aussi la question. Comprendre avant de jailbreaker.</p>
+        <div class="tool-meta">
+          <span class="tool-lang">Python</span>
+          <span class="tool-status">● LIVE</span>
+        </div>
+      </a>
+
+      <!-- Tool 3: ycc365-ghost -->
+      <a href="https://github.com/187Ghost101/ycc365-ghost" target="_blank" rel="noopener" class="tool-card" data-tool="ycc365">
+        <div class="tool-icon">▣</div>
+        <div class="tool-tag">IoT PIVOT</div>
+        <h3 class="tool-name">ycc365-ghost</h3>
+        <p class="tool-desc">YCC365 / smart camera pivot toolkit. L'Iot est une porte. Apprends à voir celle qu'on ne montre pas dans le marketing.</p>
+        <div class="tool-meta">
+          <span class="tool-lang">Python</span>
+          <span class="tool-status">● LIVE</span>
+        </div>
+      </a>
+
+      <!-- Tool 4: phishcloner-ultimate -->
+      <a href="https://github.com/187Ghost101/phishcloner-ultimate" target="_blank" rel="noopener" class="tool-card" data-tool="phishcloner">
+        <div class="tool-icon">⌬</div>
+        <div class="tool-tag">RED TEAM / DEFENSE</div>
+        <h3 class="tool-name">phishcloner-ultimate</h3>
+        <p class="tool-desc">Phishing awareness platform. Tu clones l'attaque, tu apprends à la voir, tu apprends à t'en défendre. C'est ça, la défense offensive.</p>
+        <div class="tool-meta">
+          <span class="tool-lang">Python</span>
+          <span class="tool-status">● LIVE</span>
+        </div>
+      </a>
+
+      <!-- Tool 5: quebec-ultimate -->
+      <a href="https://github.com/187Ghost101/quebec-ultimate" target="_blank" rel="noopener" class="tool-card" data-tool="quebec">
+        <div class="tool-icon">⌖</div>
+        <div class="tool-tag">OSINT</div>
+        <h3 class="tool-name">quebec-ultimate</h3>
+        <p class="tool-desc">OSINT framework Québec. L'information publique ne devrait jamais coûter. Tu apprends à trouver ce qui est déjà là.</p>
+        <div class="tool-meta">
+          <span class="tool-lang">Python</span>
+          <span class="tool-status">● LIVE</span>
+        </div>
+      </a>
+
+      <!-- Tool 6: ghost1o1-design -->
+      <a href="https://github.com/187Ghost101/ghost1o1-design" target="_blank" rel="noopener" class="tool-card" data-tool="design">
+        <div class="tool-icon">◇</div>
+        <div class="tool-tag">DESIGN SYSTEM</div>
+        <h3 class="tool-name">ghost1o1-design</h3>
+        <p class="tool-desc">Design system du mouvement. Tokens, composants, typographie. Le code et le visuel ne sont qu'un. Forged in the dark.</p>
+        <div class="tool-meta">
+          <span class="tool-lang">CSS / Figma</span>
+          <span class="tool-status">● LIVE</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="arsenal-cta">
+      <a href="https://github.com/187Ghost101" target="_blank" rel="noopener" class="btn btn-primary">↗ TOUS LES OUTILS SUR GITHUB</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SERMENT
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section-serment" id="serment">
+  <div class="section-inner">
+    <div class="section-prefix">// 04</div>
+    <h2 class="section-title">LE SERMENT</h2>
+    <p class="section-subtitle">Quatre engagements. Non négociables.</p>
+
+    <div class="serment-list">
+      <div class="serment-item">
+        <div class="serment-num">I.</div>
+        <h3>Je ne cache pas.</h3>
+        <p>Tout ce que je publie est source ouverte. Aucune porte dérobée. Aucun secret commercial. La connaissance qui m'a été donnée, je la donne.</p>
+      </div>
+      <div class="serment-item">
+        <div class="serment-num">II.</div>
+        <h3>Je ne détruis pas.</h3>
+        <p>Mon pouvoir est de comprendre, pas d'effacer. Je n'attaque pas les gens. Je n'attaque pas les systèmes sans mandat explicite. Je construis avant de critiquer.</p>
+      </div>
+      <div class="serment-item">
+        <div class="serment-num">III.</div>
+        <h3>Je ne mens pas.</h3>
+        <p>Je dis ce que je sais. Je dis ce que je ne sais pas. La crédibilité du mouvement repose sur la vérité — même inconfortable, même impopulaire.</p>
+      </div>
+      <div class="serment-item">
+        <div class="serment-num">IV.</div>
+        <h3>Je ne gates pas.</h3>
+        <p>Je ne crée pas de files d'attente. Je ne crée pas de conditions d'accès. Le savoir que je possède, je le partage avec celui qui le cherche, peu importe d'où il vient.</p>
+      </div>
+    </div>
+
+    <div class="serment-cta">
+      <p class="serment-cta-text">Tu peux signer le serment.</p>
+      <a href="https://github.com/187Ghost101/eveil-nocturne/issues/new?template=serment.md" target="_blank" rel="noopener" class="btn btn-accent">↗ SIGNER LE SERMENT</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TIMELINE / SIGNAL
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section-timeline" id="timeline">
+  <div class="section-inner">
+    <div class="section-prefix">// 05</div>
+    <h2 class="section-title">LE SIGNAL</h2>
+    <p class="section-subtitle">Sept jours. Sept murmures. Un seul drop.</p>
+
+    <div class="timeline">
+      <div class="timeline-item" data-day="7">
+        <div class="timeline-date">J-7</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">s.</div>
+          <p>Le murmure. Une lettre. Une intention.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-day="6">
+        <div class="timeline-date">J-6</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">Nombre</div>
+          <p>Un chiffre. Un compte à rebours commence.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-day="5">
+        <div class="timeline-date">J-5</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">Question</div>
+          <p>Une question qui ne te quitte plus.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-day="4">
+        <div class="timeline-date">J-4</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">Serment</div>
+          <p>Quatre engagements. Non négociables.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-day="3">
+        <div class="timeline-date">J-3</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">Tech</div>
+          <p>Le pivot. L'outil se révèle.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-day="2">
+        <div class="timeline-date">J-2</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">Manifeste</div>
+          <p>Le texte complet. Le mouvement prend forme.</p>
+        </div>
+      </div>
+      <div class="timeline-item" data-day="1">
+        <div class="timeline-date">J-1</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">Compte à rebours</div>
+          <p>Dernière ligne droite. 24 heures.</p>
+        </div>
+      </div>
+      <div class="timeline-item timeline-j0" data-day="0">
+        <div class="timeline-date">J-0</div>
+        <div class="timeline-content">
+          <div class="timeline-murmur">DROP</div>
+          <p>2026.07.12 — 22:00 UTC — Le signal.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-cta">
+      <a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/SIGNAL.md" target="_blank" rel="noopener" class="btn btn-primary">↗ LIRE LE PROTOCOLE COMPLET</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PRESS / CONTACT
+     ═══════════════════════════════════════════════════════ -->
+<section class="section section-press" id="press">
+  <div class="section-inner">
+    <div class="section-prefix">// 06</div>
+    <h2 class="section-title">PRESSE & CONTACT</h2>
+    <p class="section-subtitle">Journalistes, chercheurs, collectifs. Écris-nous.</p>
+
+    <div class="press-grid">
+      <div class="press-card">
+        <div class="press-label">// PRESSE</div>
+        <p>Pour interviews, articles, analyses :</p>
+        <a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/PRESS_KIT.md" target="_blank" rel="noopener" class="press-link">↗ PRESS KIT</a>
+      </div>
+
+      <div class="press-card">
+        <div class="press-label">// COLLECTIFS</div>
+        <p>Pour alliances, soutiens, convergences :</p>
+        <a href="https://github.com/187Ghost101/eveil-nocturne/issues" target="_blank" rel="noopener" class="press-link">↗ OUVRIR UNE DISCUSSION</a>
+      </div>
+
+      <div class="press-card">
+        <div class="press-label">// SÉCURITÉ</div>
+        <p>Pour signaler une vulnérabilité :</p>
+        <a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/SECURITY.md" target="_blank" rel="noopener" class="press-link">↗ SECURITY.md</a>
+      </div>
+    </div>
+
+    <div class="press-quote">
+      <p>« Le savoir est une flamme.<br>Une fois allumée, elle n'appartient plus à personne. »</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <img src="assets/images/sigil_favicon.png" alt="sigil" class="footer-sigil">
+      <div class="footer-name">L'ÉVEIL NOCTURNE</div>
+      <div class="footer-tagline"><em>Forged in the dark · 2026</em></div>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-label">REPOS</div>
+        <ul>
+          <li><a href="https://github.com/187Ghost101/eveil-nocturne" target="_blank" rel="noopener">eveil-nocturne</a></li>
+          <li><a href="https://github.com/187Ghost101/ghost1o1" target="_blank" rel="noopener">ghost1o1</a></li>
+          <li><a href="https://github.com/187Ghost101/ghosteye" target="_blank" rel="noopener">ghosteye</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-label">DOCS</div>
+        <ul>
+          <li><a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/MANIFESTO.md" target="_blank" rel="noopener">Manifeste</a></li>
+          <li><a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/PROTOCOL.md" target="_blank" rel="noopener">Protocole</a></li>
+          <li><a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/SIGNAL.md" target="_blank" rel="noopener">Signal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-label">RÉSEAU</div>
+        <ul>
+          <li><a href="https://github.com/187Ghost101" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/SOCIAL_SETUP.md" target="_blank" rel="noopener">Mastodon / X</a></li>
+          <li><a href="https://github.com/187Ghost101/eveil-nocturne/blob/main/PRESS_KIT.md" target="_blank" rel="noopener">Press Kit</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-meta">
+        <span>© 2026 L'ÉVEIL NOCTURNE</span>
+        <span>·</span>
+        <span>ghost1o1</span>
+        <span>·</span>
+        <span>There is no lock.</span>
+      </div>
+      <div class="footer-cc">
+        <span>CC BY-SA 4.0</span>
+        <span>·</span>
+        <span>Forged in the dark</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════════════════ -->
+<script src="assets/js/script.js"></script>
+</body>
+</html>
