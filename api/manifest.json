@@ -1,0 +1,112 @@
+{
+  "name": "L'ÉVEIL NOCTURNE",
+  "version": "0.1.0-pre-j0",
+  "tagline": "There is no lock.",
+  "trinity": [
+    "There is no lock.",
+    "Du silence naît la lumière.",
+    "Là où l'ignorance dort, nous allumons."
+  ],
+  "drop_date": "2026-07-12T22:00:00Z",
+  "drop_unix": 1783941600,
+  "days_until_drop": 7,
+  "movement": {
+    "name": "L'ÉVEIL NOCTURNE",
+    "operator": "ghost1o1",
+    "founded": "2026",
+    "philosophy": "open-source offensive education, zero gatekeeping, methodology over paywall",
+    "principles": [
+      "Curiosité comme droit",
+      "Outils, pas produits",
+      "Méthode avant résultat",
+      "Zéro hiérarchie"
+    ],
+    "serment": [
+      "Je ne cache pas.",
+      "Je ne détruis pas.",
+      "Je ne mens pas.",
+      "Je ne gates pas."
+    ]
+  },
+  "arsenal": [
+    {
+      "name": "ghosteye",
+      "tag": "RECONNAISSANCE",
+      "desc": "HLS live streaming dashboard. ONVIF discovery. RTSP brute.",
+      "lang": "Python",
+      "repo": "https://github.com/187Ghost101/ghosteye"
+    },
+    {
+      "name": "biobypass",
+      "tag": "AUTH BYPASS",
+      "desc": "Biometric bypass research toolkit.",
+      "lang": "Python",
+      "repo": "https://github.com/187Ghost101/biobypass"
+    },
+    {
+      "name": "ycc365-ghost",
+      "tag": "IoT PIVOT",
+      "desc": "YCC365 / smart camera pivot toolkit.",
+      "lang": "Python",
+      "repo": "https://github.com/187Ghost101/ycc365-ghost"
+    },
+    {
+      "name": "phishcloner-ultimate",
+      "tag": "RED TEAM",
+      "desc": "Phishing awareness platform / Red Team.",
+      "lang": "Python",
+      "repo": "https://github.com/187Ghost101/phishcloner-ultimate"
+    },
+    {
+      "name": "quebec-ultimate",
+      "tag": "OSINT",
+      "desc": "OSINT framework Québec.",
+      "lang": "Python",
+      "repo": "https://github.com/187Ghost101/quebec-ultimate"
+    },
+    {
+      "name": "ghost1o1-design",
+      "tag": "DESIGN",
+      "desc": "Design system du mouvement.",
+      "lang": "CSS / Figma",
+      "repo": "https://github.com/187Ghost101/ghost1o1-design"
+    }
+  ],
+  "brand": {
+    "colors": {
+      "bg": "#0a0a0f",
+      "gold": "#f4a261",
+      "accent": "#e63946",
+      "cyan": "#00d4ff",
+      "lunar": "#e8e8f0"
+    },
+    "sigil": "moon + open eye + 4 diverging paths",
+    "tagline_en": "There is no lock.",
+    "tagline_fr_1": "Du silence naît la lumière.",
+    "tagline_fr_2": "Là où l'ignorance dort, nous allumons."
+  },
+  "signal": {
+    "url": "https://187ghost101.github.io/eveil-nocturne/",
+    "repo": "https://github.com/187Ghost101/eveil-nocturne",
+    "protocol": "https://github.com/187Ghost101/eveil-nocturne/blob/main/SIGNAL.md",
+    "press_kit": "https://github.com/187Ghost101/eveil-nocturne/blob/main/PRESS_KIT.md"
+  },
+  "social": {
+    "github": "https://github.com/187Ghost101",
+    "twitter": "https://github.com/187Ghost101/eveil-nocturne/blob/main/SOCIAL_SETUP.md",
+    "mastodon": "https://github.com/187Ghost101/eveil-nocturne/blob/main/SOCIAL_SETUP.md"
+  },
+  "campaign": {
+    "J-7": "s. — Le murmure. Une lettre. Une intention.",
+    "J-6": "Nombre — Un chiffre. Le compte à rebours commence.",
+    "J-5": "Question — Une question qui ne te quitte plus.",
+    "J-4": "Serment — Quatre engagements. Non négociables.",
+    "J-3": "Tech — Le pivot. L'outil se révèle.",
+    "J-2": "Manifeste — Le texte complet. Le mouvement prend forme.",
+    "J-1": "Compte à rebours — Dernière ligne droite. 24 heures.",
+    "J-0": "DROP — 2026.07.12 — 22:00 UTC — Le signal."
+  },
+  "license": "CC BY-SA 4.0",
+  "forged_in": "the dark",
+  "year": 2026
+}
