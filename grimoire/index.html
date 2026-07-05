@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LE GRIMOIRE — L'Éveil Nocturne</title>
+<style>
+:root { --bg:#0a0a0f; --bg-2:#0a0a14; --gold:#f4a261; --gold-2:#e76f51; --accent:#e63946; --cyan:#00d4ff; --lunar:#e8e8f0; --text:#c8c8d0; --text-2:#8888a0; --text-3:#5a5a70; --mono:'JetBrains Mono','Fira Code',monospace; --serif:'Georgia',serif; }
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--text);font-family:var(--mono);height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:crosshair}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center bottom,rgba(244,162,97,0.08) 0%,transparent 60%);animation:flicker 4s ease-in-out infinite;z-index:0;pointer-events:none}
+@keyframes flicker{0%,100%{opacity:0.4}50%{opacity:0.7}}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,0.85) 100%);z-index:1;pointer-events:none}
+#stage{position:relative;z-index:2;width:100%;max-width:800px;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center}
+.sigil-stage{position:relative;width:200px;height:200px;margin-bottom:40px}
+.sigil-stage svg{width:100%;height:100%;filter:drop-shadow(0 0 30px rgba(244,162,97,0.4))}
+.phase-label{font-size:10px;letter-spacing:5px;color:var(--text-3);margin-bottom:16px;text-transform:uppercase}
+.title{font-family:var(--serif);font-size:42px;font-style:italic;color:var(--lunar);margin-bottom:24px;letter-spacing:-1px;opacity:0;animation:fadeIn 2s ease forwards}
+@keyframes fadeIn{to{opacity:1}}
+.cipher{font-family:var(--mono);font-size:14px;color:var(--gold);background:var(--bg-2);border:1px solid rgba(244,162,97,0.2);border-radius:4px;padding:20px 24px;margin:16px 0;letter-spacing:1px;min-height:80px;display:flex;align-items:center;justify-content:center;max-width:600px;width:100%;position:relative;overflow:hidden}
+.cipher::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(244,162,97,0.1),transparent);animation:scan 3s linear infinite}
+@keyframes scan{100%{transform:translateX(200%)}}
+.cipher .char{display:inline-block;transition:color 0.3s,text-shadow 0.3s,transform 0.3s}
+.cipher .char.revealed{color:var(--lunar);text-shadow:0 0 8px var(--gold);transform:scale(1.1)}
+.hint{font-size:11px;color:var(--text-3);letter-spacing:2px;margin-top:24px;opacity:0.7}
+.hint .key{color:var(--cyan);border:1px solid var(--cyan);padding:2px 6px;border-radius:2px;font-size:9px}
+.progress{width:100%;max-width:400px;height:2px;background:var(--bg-2);border-radius:1px;margin-top:20px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--gold),var(--accent));width:0%;transition:width 0.5s ease}
+footer{position:fixed;bottom:20px;font-size:9px;color:var(--text-3);letter-spacing:2px;z-index:2}
+footer a{color:var(--gold);text-decoration:none}
+.phase-1 .title{color:var(--cyan)}
+.phase-2 .title{color:var(--gold)}
+.phase-3 .title{color:var(--accent)}
+.final{display:none;flex-direction:column;align-items:center;animation:fadeIn 3s ease}
+.final.show{display:flex}
+.final .manifesto{font-family:var(--serif);font-size:18px;line-height:1.6;color:var(--lunar);max-width:500px;font-style:italic}
+.final .manifesto .em{color:var(--gold);font-weight:bold;font-style:normal}
+.final .manifesto .em-acc{color:var(--accent);font-weight:bold;font-style:normal}
+.final .sig{margin-top:30px;color:var(--gold);font-size:11px;letter-spacing:3px}
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;background:var(--lunar);border-radius:50%;opacity:0.4;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0.2}50%{opacity:0.7}}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div id="stage" class="phase-1">
+  <div class="sigil-stage">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g id="gMoon">
+        <path d="M 100,40 A 30,30 0 1 0 110,90 A 22,22 0 1 1 100,40 Z" fill="#f4a261">
+          <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+        </path>
+      </g>
+      <g id="gEye">
+        <ellipse cx="100" cy="115" rx="28" ry="14" fill="none" stroke="#e8e8f0" stroke-width="2"/>
+        <circle cx="100" cy="115" r="10" fill="#e63946">
+          <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="115" r="4" fill="#0a0a0f"/>
+      </g>
+      <g id="gPaths" stroke="#00d4ff" stroke-width="2" fill="#00d4ff">
+        <line x1="80" y1="150" x2="60" y2="180"/>
+        <line x1="120" y1="150" x2="140" y2="180"/>
+        <line x1="80" y1="150" x2="70" y2="185"/>
+        <line x1="120" y1="150" x2="130" y2="185"/>
+        <circle cx="60" cy="180" r="3"/>
+        <circle cx="140" cy="180" r="3"/>
+        <circle cx="70" cy="185" r="2"/>
+        <circle cx="130" cy="185" r="2"/>
+      </g>
+      <circle cx="100" cy="150" r="3" fill="#e63946"/>
+    </svg>
+  </div>
+  <div class="phase-label" id="phaseLabel">// PHASE 01 — LE MURMURE</div>
+  <h1 class="title" id="title">Là où l'ignorance dort...</h1>
+  <div class="cipher" id="cipher">...</div>
+  <div class="progress"><div class="progress-fill" id="progress"></div></div>
+  <div class="hint">Appuie sur <span class="key">ESPACE</span> pour avancer</div>
+  <div class="final" id="final">
+    <div class="phase-label">// PHASE 03 — LE SIGNAL</div>
+    <h1 class="title">L'ÉVEIL NOCTURNE</h1>
+    <div class="manifesto">
+      On ne vous apprend pas à <span class="em">penser</span>.<br>
+      On vous apprend à <span class="em-acc">obéir</span> à ceux qui savent.<br><br>
+      <em>There is no lock.</em><br>
+      <em>Du silence naît la lumière.</em><br>
+      <em>Là où l'ignorance dort, nous allumons.</em>
+    </div>
+    <div class="sig">— L'ÉVEIL NOCTURNE · 2026 —</div>
+  </div>
+</div>
+<footer>FORGED IN THE DARK · <a href="https://github.com/187Ghost101/eveil-nocturne">github.com/187Ghost101</a></footer>
+<script>
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 50; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2 + 0.5;
+  s.style.width = s.style.height = sz + 'px';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+  s.style.animationDelay = Math.random() * 3 + 's';
+  s.style.animationDuration = (2 + Math.random() * 3) + 's';
+  starsEl.appendChild(s);
+}
+const PHASES = [
+  { label: '// PHASE 01 — LE MURMURE', title: "Là où l'ignorance dort...", cipher: "Là où l'ignorance dort, nous allumons." },
+  { label: "// PHASE 02 — L'OUVERTURE", title: 'There is no lock.', cipher: 'There is no lock. There never was.' },
+  { label: '// PHASE 03 — LE SIGNAL', title: 'Du silence naît la lumière.', cipher: 'Du silence naît la lumière. Le signal est lancé.' }
+];
+let currentPhase = 0, progressVal = 0;
+const phaseLabel = document.getElementById('phaseLabel');
+const titleEl = document.getElementById('title');
+const cipherEl = document.getElementById('cipher');
+const progressEl = document.getElementById('progress');
+const stage = document.getElementById('stage');
+const finalEl = document.getElementById('final');
+function setPhase(n) {
+  currentPhase = n;
+  const p = PHASES[n];
+  phaseLabel.textContent = p.label;
+  titleEl.textContent = p.title;
+  stage.className = `phase-${n+1}`;
+  cipherEl.innerHTML = '';
+  for (const ch of p.cipher) {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.textContent = ch;
+    cipherEl.appendChild(span);
+  }
+  progressVal = 0;
+  progressEl.style.width = '0%';
+}
+function revealNext() {
+  const chars = cipherEl.querySelectorAll('.char');
+  for (const c of chars) {
+    if (!c.classList.contains('revealed')) {
+      c.classList.add('revealed');
+      if (navigator.vibrate) navigator.vibrate(8);
+      return;
+    }
+  }
+}
+function advance() {
+  for (let i = 0; i < 4; i++) revealNext();
+  progressVal = Math.min(100, progressVal + 7);
+  progressEl.style.width = progressVal + '%';
+  if (progressVal >= 100) {
+    if (currentPhase < PHASES.length - 1) {
+      setTimeout(() => setPhase(currentPhase + 1), 600);
+    } else {
+      setTimeout(() => {
+        document.querySelector('.sigil-stage').style.display = 'none';
+        document.querySelector('.cipher').style.display = 'none';
+        document.querySelector('.progress').style.display = 'none';
+        document.querySelector('.hint').style.display = 'none';
+        document.getElementById('phaseLabel').style.display = 'none';
+        document.getElementById('title').style.display = 'none';
+        finalEl.classList.add('show');
+      }, 600);
+    }
+  }
+}
+document.addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); advance(); } });
+document.addEventListener('click', () => advance());
+setPhase(0);
+cipherEl.querySelectorAll('.char').forEach(c => c.classList.add('revealed'));
+console.log('%c\n  ╔═══════════════════════════════════╗\n  ║  📜 LE GRIMOIRE                   ║\n  ║  L\'ÉVEIL NOCTURNE                 ║\n  ║  Press SPACE to advance.           ║\n  ╚═══════════════════════════════════╝\n', 'color:#f4a261;font-family:monospace;');
+</script>
+</body>
+</html>
