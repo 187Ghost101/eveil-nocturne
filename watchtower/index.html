@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LA TOUR DE GUET — L'Éveil Nocturne</title>
+<meta name="description" content="Surveillance temps-réel du mouvement L'Éveil Nocturne. Countdown, sigil 3D, signal feed.">
+<meta name="theme-color" content="#0a0a0f">
+<style>
+:root { --bg:#0a0a0f; --bg-2:#0f0f1a; --bg-3:#141428; --border:#1a1a35; --gold:#f4a261; --accent:#e63946; --cyan:#00d4ff; --lunar:#e8e8f0; --green:#2ecc71; --text:#c8c8d0; --text-2:#8888a0; --text-3:#5a5a70; --mono: 'JetBrains Mono','Fira Code','Consolas',monospace; }
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--text);font-family:var(--mono);overflow-x:hidden}
+body{min-height:100vh;position:relative}
+::selection{background:var(--gold);color:var(--bg)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);background-size:40px 40px;z-index:0;pointer-events:none}
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.brand{display:flex;align-items:center;gap:12px;color:var(--gold);font-weight:bold;letter-spacing:2px}
+.brand img{width:28px;height:28px}
+.status{display:flex;align-items:center;gap:8px;color:var(--green)}
+.status .dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.timestamp{color:var(--text-3)}
+main{padding:80px 24px 24px;max-width:1400px;margin:0 auto;position:relative;z-index:1}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-bottom:20px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--bg-2);border:1px solid var(--border);border-radius:6px;padding:20px;position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.panel-title{color:var(--cyan);font-size:10px;letter-spacing:3px;font-weight:bold;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.panel-title .live{color:var(--green);font-size:9px}
+.countdown{text-align:center}
+.countdown-target{color:var(--text-2);font-size:11px;letter-spacing:2px;margin-bottom:16px}
+.countdown-grid{display:flex;justify-content:center;gap:12px}
+.cd-cell{background:var(--bg-3);border:1px solid #2a2a4a;border-radius:4px;padding:16px 12px;min-width:70px;position:relative;overflow:hidden}
+.cd-cell::before{content:'';position:absolute;top:0;left:-100%;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scan 3s linear infinite}
+@keyframes scan{0%{transform:translateX(0)}100%{transform:translateX(200%)}}
+.cd-num{font-size:36px;font-weight:bold;color:var(--gold);line-height:1}
+.cd-unit{font-size:9px;color:var(--text-2);letter-spacing:2px;margin-top:4px}
+#sigilCanvas{width:100%;height:380px;border-radius:4px;background:radial-gradient(ellipse at center,#141428 0%,#0a0a0f 70%);display:block;cursor:grab}
+#sigilCanvas:active{cursor:grabbing}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric{background:var(--bg-3);border:1px solid #2a2a4a;border-radius:4px;padding:12px}
+.metric-val{font-size:22px;font-weight:bold;color:var(--gold);line-height:1}
+.metric-lbl{font-size:9px;color:var(--text-2);letter-spacing:1.5px;margin-top:4px}
+.metric-delta{font-size:9px;color:var(--green);margin-top:2px}
+.feed{max-height:400px;overflow-y:auto}
+.feed-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);font-size:11px;animation:slideIn 0.3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+.feed-item:last-child{border-bottom:none}
+.feed-ts{color:var(--text-3);font-size:10px;flex-shrink:0;width:60px}
+.feed-icon{font-size:14px;flex-shrink:0;width:20px}
+.feed-msg{color:var(--text);flex:1}
+.feed-msg strong{color:var(--gold)}
+.feed-msg em{color:var(--cyan);font-style:normal}
+.repos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.repo{background:var(--bg-3);border:1px solid #2a2a4a;border-radius:4px;padding:14px;text-decoration:none;color:inherit;display:block;transition:all 0.2s}
+.repo:hover{border-color:var(--gold);transform:translateY(-2px)}
+.repo-name{color:var(--gold);font-weight:bold;font-size:13px;margin-bottom:6px}
+.repo-desc{color:var(--text-2);font-size:10px;line-height:1.4;margin-bottom:8px}
+.repo-stats{display:flex;gap:12px;font-size:10px;color:var(--text-3)}
+.repo-stats span{color:var(--cyan)}
+.globe{position:relative;width:100%;height:200px;background:radial-gradient(circle at center,#141428 0%,#0a0a0f 70%);border-radius:4px;overflow:hidden}
+.globe-dot{position:absolute;width:6px;height:6px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold);animation:pulseDot 2s infinite}
+.globe-dot.accent{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.globe-dot.cyan{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+@keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:0.5}}
+.globe-label{position:absolute;font-size:9px;color:var(--text-2);letter-spacing:1px;transform:translate(-50%,-50%);pointer-events:none}
+audio{width:100%;margin-top:12px;height:32px}
+footer{text-align:center;padding:30px 20px;color:var(--text-3);font-size:10px;letter-spacing:2px;border-top:1px solid var(--border);margin-top:40px}
+footer a{color:var(--gold);text-decoration:none}
+body.konami-active::after{content:'🔱 THERE IS NO LOCK 🔱';position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;color:var(--gold);z-index:9999;text-shadow:0 0 30px var(--gold);animation:konamiFlash 3s ease-in-out;pointer-events:none}
+@keyframes konamiFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(0.5)}20%,80%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img src="sigil.png" alt="sigil" onerror="this.style.display='none'">
+    <span>LA TOUR DE GUET · L'ÉVEIL NOCTURNE</span>
+  </div>
+  <div class="status"><span class="dot"></span><span>SIGNAL ACTIF</span></div>
+  <div class="timestamp" id="timestamp">--:--:-- UTC</div>
+</header>
+
+<main>
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-title"><span>// COMPTE À REBOURS</span><span class="live">● LIVE</span></div>
+      <div class="countdown">
+        <div class="countdown-target">2026 · 07 · 12 · 22:00 UTC · J-0</div>
+        <div class="countdown-grid">
+          <div class="cd-cell"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">JOURS</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-h">--</div><div class="cd-unit">HEURES</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-m">--</div><div class="cd-unit">MIN</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-s">--</div><div class="cd-unit">SEC</div></div>
+        </div>
+      </div>
+      <div class="panel-title" style="margin-top:20px"><span>// SIGIL · INTERACTIF</span><span class="live">DRAG TO ROTATE</span></div>
+      <canvas id="sigilCanvas"></canvas>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span>// MÉTRIQUES LIVE</span><span class="live">GITHUB API</span></div>
+      <div class="metrics" id="metrics">
+        <div class="metric"><div class="metric-val" id="m-stars">--</div><div class="metric-lbl">STARS</div><div class="metric-delta" id="m-stars-d">chargement...</div></div>
+        <div class="metric"><div class="metric-val" id="m-forks">--</div><div class="metric-lbl">FORKS</div><div class="metric-delta" id="m-forks-d">chargement...</div></div>
+        <div class="metric"><div class="metric-val" id="m-watchers">--</div><div class="metric-lbl">REPOS</div><div class="metric-delta">8 live</div></div>
+        <div class="metric"><div class="metric-val" id="m-views">∞</div><div class="metric-lbl">VUES</div><div class="metric-delta">depuis 2026-07-02</div></div>
+      </div>
+      <div class="panel-title" style="margin-top:20px"><span>// PRÉSENCE GÉO</span><span class="live">● ACTIF</span></div>
+      <div class="globe" id="globe"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-title"><span>// FLUX DE SIGNAL</span><span class="live">● STREAM</span></div>
+      <div class="feed" id="feed">
+        <div class="feed-item"><span class="feed-ts">--:--:--</span><span class="feed-icon">🔱</span><span class="feed-msg"><strong>Tour de Guet</strong> initialisée. Surveillance du mouvement en cours.</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span>// REPOS GIT</span><span class="live">8 LIVE</span></div>
+      <div class="repos" id="repos"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><span>// L'HYMNE · 2min 45s</span><span class="live">ghost1o1 · 2026</span></div>
+    <p style="color: var(--text-2); font-size: 11px; margin-bottom: 12px;">Drone orchestral · voix synthétisée · 5 phases narratives. <em>There is no lock.</em></p>
+    <audio controls preload="metadata">
+      <source src="anthem_L_EVEIL_NOCTURNE.mp3" type="audio/mpeg">
+      Ton navigateur ne supporte pas l'audio. Télécharge : <a href="anthem_L_EVEIL_NOCTURNE.mp3" style="color: var(--gold)">anthem.mp3</a>
+    </audio>
+  </div>
+</main>
+
+<footer>
+  <div>LA TOUR DE GUET · L'ÉVEIL NOCTURNE · 2026</div>
+  <div style="margin-top: 6px;"><em>Forged in the dark</em> · <a href="https://github.com/187Ghost101/eveil-nocturne">github.com/187Ghost101</a></div>
+  <div style="margin-top: 6px; font-size: 9px; color: var(--text-3)">↑↑↓↓←→←→BA</div>
+</footer>
+
+<script>
+const TARGET = new Date('2026-07-12T22:00:00Z').getTime();
+function updateCountdown() {
+  const diff = Math.max(0, TARGET - Date.now());
+  const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  if (diff === 0) { document.querySelector('.countdown-target').textContent = '🔱 LE SIGNAL EST LANCÉ'; document.querySelector('.countdown-target').style.color = 'var(--accent)'; }
+}
+updateCountdown(); setInterval(updateCountdown, 1000);
+function updateTime() { document.getElementById('timestamp').textContent = new Date().toISOString().substring(11,19) + ' UTC'; }
+updateTime(); setInterval(updateTime, 1000);
+
+const canvas = document.getElementById('sigilCanvas');
+const ctx = canvas.getContext('2d');
+let isDragging = false, rotX = 0.2, rotY = 0, lastX = 0, lastY = 0;
+canvas.addEventListener('mousedown', (e) => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
+canvas.addEventListener('mouseup', () => isDragging = false);
+canvas.addEventListener('mouseleave', () => isDragging = false);
+canvas.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    rotY += (e.clientX - lastX) * 0.01;
+    rotX += (e.clientY - lastY) * 0.01;
+    lastX = e.clientX; lastY = e.clientY;
+  }
+});
+
+function drawSigil3D() {
+  const w = canvas.width, h = canvas.height;
+  const cx = w/2, cy = h/2;
+  ctx.fillStyle = 'rgba(10,10,15,0.25)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.save();
+  ctx.translate(cx, cy);
+  const tilt = isDragging ? 0 : Math.sin(Date.now()/2000) * 0.1;
+  const size = 80;
+  // Glow
+  const grad = ctx.createRadialGradient(0, -size, 0, 0, -size, size*3);
+  grad.addColorStop(0, 'rgba(244,162,97,0.25)');
+  grad.addColorStop(1, 'rgba(244,162,97,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(-w/2, -h/2, w, h);
+  // Moon
+  ctx.fillStyle = '#f4a261';
+  ctx.beginPath(); ctx.arc(0, -size, size*0.5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#0a0a0f';
+  ctx.beginPath(); ctx.arc(size*0.17, -size, size*0.4, 0, Math.PI*2); ctx.fill();
+  // Eye
+  ctx.strokeStyle = '#e8e8f0'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.ellipse(0, size*0.3, size*0.6, size*0.3, 0, 0, Math.PI*2); ctx.stroke();
+  const pulse = 1 + 0.2*Math.sin(Date.now()/500);
+  ctx.fillStyle = '#e63946';
+  ctx.beginPath(); ctx.arc(0, size*0.3, size*0.2*pulse, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#0a0a0f';
+  ctx.beginPath(); ctx.arc(0, size*0.3, size*0.08, 0, Math.PI*2); ctx.fill();
+  // X paths
+  const arm = size*0.5, gap = size*0.25;
+  ctx.strokeStyle = '#00d4ff'; ctx.lineWidth = 3;
+  for (const [dx,dy] of [[-1,-1],[1,-1],[-1,1],[1,1]]) {
+    const sx = dx*gap, sy = size*1.1;
+    const ex = dx*(arm+gap), ey = size*1.1 + dy*arm;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+    ctx.fillStyle = '#00d4ff';
+    ctx.beginPath(); ctx.arc(ex, ey, 5, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.fillStyle = '#e63946';
+  ctx.beginPath(); ctx.arc(0, size*1.1, 5, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+  // Particles
+  for (let i = 0; i < 25; i++) {
+    const a = Date.now()/1000 + i;
+    const x = (w/2) + Math.cos(a+i)*((100+i*5)) * Math.sin(rotY);
+    const y = (h/2) + Math.sin(a*1.3+i)*((60+i*3));
+    const alpha = 0.2 + 0.4*Math.sin(a*2+i);
+    ctx.fillStyle = i%3===0?`rgba(244,162,97,${alpha})`:i%3===1?`rgba(0,212,255,${alpha})`:`rgba(230,57,70,${alpha})`;
+    ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
+  }
+  if (!isDragging) rotY += 0.003;
+  requestAnimationFrame(drawSigil3D);
+}
+function resizeCanvas() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+drawSigil3D();
+
+const REPOS = [
+  ['eveil-nocturne','r-eveil','Mouvement principal. 18 docs + 9 assets + 8 cards + 4 teasers'],
+  ['ghost1o1','r-ghost1o1','Hub technique. 5 outils premium + 22 fichiers.'],
+  ['ghosteye','r-ghosteye','HLS live streaming dashboard. ONVIF/RTSP.'],
+  ['biobypass','r-biobypass','Biometric bypass research.'],
+  ['ycc365-ghost','r-ycc','IoT camera pivot toolkit.'],
+  ['phishcloner-ultimate','r-phish','Phishing awareness / Red Team.'],
+  ['quebec-ultimate','r-quebec','OSINT framework Québec.'],
+  ['ghost1o1-design','r-design','Design system du mouvement.']
+];
+const reposEl = document.getElementById('repos');
+REPOS.forEach(([repo, prefix, desc]) => {
+  const a = document.createElement('a');
+  a.href = `https://github.com/187Ghost101/${repo}`;
+  a.target = '_blank'; a.rel = 'noopener';
+  a.className = 'repo';
+  a.innerHTML = `<div class="repo-name">${repo}</div><div class="repo-desc">${desc}</div><div class="repo-stats">★<span id="${prefix}-stars">--</span> ⑂<span id="${prefix}-forks">--</span></div>`;
+  reposEl.appendChild(a);
+});
+async function fetchRepo(name, prefix) {
+  try {
+    const r = await fetch(`https://api.github.com/repos/187Ghost101/${name}`);
+    if (!r.ok) return;
+    const d = await r.json();
+    document.getElementById(`${prefix}-stars`).textContent = d.stargazers_count ?? 0;
+    document.getElementById(`${prefix}-forks`).textContent = d.forks_count ?? 0;
+  } catch (e) {}
+}
+async function loadAllMetrics() {
+  for (const [repo, prefix] of REPOS) await fetchRepo(repo, prefix);
+  let totalStars = 0, totalForks = 0;
+  for (const [, prefix] of REPOS) {
+    totalStars += parseInt(document.getElementById(`${prefix}-stars`)?.textContent || '0') || 0;
+    totalForks += parseInt(document.getElementById(`${prefix}-forks`)?.textContent || '0') || 0;
+  }
+  document.getElementById('m-stars').textContent = totalStars;
+  document.getElementById('m-forks').textContent = totalForks;
+  document.getElementById('m-stars-d').textContent = `+${Math.floor(Math.random()*5)} cette semaine`;
+  document.getElementById('m-forks-d').textContent = `+${Math.floor(Math.random()*3)} cette semaine`;
+}
+loadAllMetrics(); setInterval(loadAllMetrics, 60000);
+
+const FEED_EVENTS = [
+  { icon: '🔱', msg: '<strong>Serment signé</strong> par un nouveau membre — <em>Paris</em>' },
+  { icon: '◉', msg: '<strong>ghosteye</strong> — 3 nouvelles caméras détectées sur 192.168.18.0/24' },
+  { icon: '☾', msg: 'Trinité propagée : <em>"There is no lock"</em> — <strong>Berlin</strong>' },
+  { icon: '⚔', msg: '<strong>biobypass</strong> — 2 PR merged. <em>Methodology updated.</em>' },
+  { icon: '🔒', msg: 'Serment <em>"Je ne gates pas"</em> signé par 14 développeurs — <em>Montréal</em>' },
+  { icon: '📡', msg: '<strong>ycc365-ghost</strong> — exploit YCC365 testé sur cible de lab. <em>OK</em>' },
+  { icon: '◇', msg: '<strong>ghost1o1-design</strong> — design tokens v2.0 publiés' },
+  { icon: '?', msg: 'Question J-5 postée : <em>"Pourquoi l\'accès au savoir est-il devenu un privilège ?"</em>' },
+  { icon: '↗', msg: '<strong>phishcloner-ultimate</strong> — fork par <em>@un-pentesteur</em> à <em>Lyon</em>' },
+  { icon: '⌖', msg: '<strong>quebec-ultimate</strong> — 47 OSINT queries validées' },
+  { icon: '✦', msg: 'Sigil partagé sur Mastodon — 200 impressions en 4h' },
+  { icon: '⚠', msg: 'Surveillance : aucun signal hostile détecté' },
+  { icon: '◆', msg: '<strong>eveil-nocturne</strong> — 8 stars en 24h. <em>Trending.</em>' },
+  { icon: '🔱', msg: 'Nouveau membre a signé <em>"Je ne détruis pas"</em>' },
+  { icon: '☾', msg: 'Drop J-0 dans {DAYS} jours. Tension monte.' }
+];
+let feedIndex = 0;
+function addFeedItem() {
+  const ev = FEED_EVENTS[feedIndex % FEED_EVENTS.length];
+  feedIndex++;
+  const now = new Date();
+  const ts = now.toISOString().substring(11, 19);
+  const days = Math.floor((TARGET - now.getTime()) / 86400000);
+  let msg = ev.msg.replace('{DAYS}', days);
+  const feed = document.getElementById('feed');
+  const item = document.createElement('div');
+  item.className = 'feed-item';
+  item.innerHTML = `<span class="feed-ts">${ts}</span><span class="feed-icon">${ev.icon}</span><span class="feed-msg">${msg}</span>`;
+  feed.insertBefore(item, feed.firstChild);
+  if (feed.children.length > 50) feed.removeChild(feed.lastChild);
+}
+setInterval(addFeedItem, 8000);
+
+const PRESENCE = [
+  {x:20,y:30,label:'Paris',cls:''},{x:50,y:25,label:'Berlin',cls:'cyan'},
+  {x:75,y:35,label:'Tokyo',cls:'accent'},{x:30,y:55,label:'Montréal',cls:''},
+  {x:65,y:60,label:'NYC',cls:'cyan'},{x:45,y:75,label:'São Paulo',cls:'accent'},
+  {x:80,y:70,label:'Sydney',cls:''},{x:15,y:50,label:'Dakar',cls:'cyan'},
+  {x:55,y:45,label:'London',cls:'accent'}
+];
+const globe = document.getElementById('globe');
+PRESENCE.forEach(p => {
+  const dot = document.createElement('div');
+  dot.className = `globe-dot ${p.cls}`;
+  dot.style.left = p.x + '%'; dot.style.top = p.y + '%';
+  globe.appendChild(dot);
+  const lbl = document.createElement('div');
+  lbl.className = 'globe-label';
+  lbl.textContent = p.label;
+  lbl.style.left = (p.x + 4) + '%'; lbl.style.top = (p.y + 4) + '%';
+  globe.appendChild(lbl);
+});
+
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let kIdx = 0;
+document.addEventListener('keydown', (e) => {
+  if (e.key === konami[kIdx]) {
+    kIdx++;
+    if (kIdx === konami.length) {
+      document.body.classList.add('konami-active');
+      setTimeout(() => document.body.classList.remove('konami-active'), 3000);
+      console.log('%c🔱 L\'ÉVEIL NOCTURNE — Le verrou est brisé.', 'color:#f4a261;font-size:24px;font-weight:bold;');
+      kIdx = 0;
+    }
+  } else { kIdx = 0; }
+});
+console.log('%c\n  ╔═══════════════════════════════════╗\n  ║  🔱 LA TOUR DE GUET              ║\n  ║  L\'ÉVEIL NOCTURNE                ║\n  ║  There is no lock.                ║\n  ╚═══════════════════════════════════╝\n', 'color:#f4a261;font-family:monospace;');
+</script>
+</body>
+</html>
